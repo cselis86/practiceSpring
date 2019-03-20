@@ -1,8 +1,6 @@
 package com.elis.spring.practice.config;
 
-import com.elis.spring.practice.services.HelloService;
-import com.elis.spring.practice.services.HelloServiceEngImpl;
-import com.elis.spring.practice.services.HelloServiceSpnImpl;
+import com.elis.spring.practice.services.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -11,14 +9,25 @@ import org.springframework.context.annotation.Profile;
 public class HelloConfig {
 
     @Bean
+    public HelloWorldFactory helloWorldFactory(){
+        return new HelloWorldFactory();
+    }
+
+    @Bean
     @Profile("default")
-    public HelloService helloServiceEng(){
-        return new HelloServiceEngImpl();
+    public HelloService helloServiceEng(HelloWorldFactory factory){
+        return factory.createHelloService("en");
     }
 
     @Bean
     @Profile("spanish")
-    public HelloService helloServiceSpn(){
-        return new HelloServiceSpnImpl();
+    public HelloService helloServiceSpn(HelloWorldFactory factory){
+        return factory.createHelloService("sp");
+    }
+
+    @Bean
+    @Profile("french")
+    public HelloService helloServiceFr(HelloWorldFactory factory){
+        return factory.createHelloService("fr");
     }
 }
